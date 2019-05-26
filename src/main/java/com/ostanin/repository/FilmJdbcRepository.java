@@ -35,8 +35,18 @@ public class FilmJdbcRepository {
     }
 
     public List<Film> searchByName(String searchString) {
-        String sql = "select * from film  WHERE title LIKE '%" + searchString + "'%'";
+        String sql = "select * from film  WHERE title LIKE '%" + searchString + "%'";
         return jdbcTemplate.query(sql, new FilmRowMapper());
+    }
+
+    public List<Film> searchByProducer(String searchString) {
+        String sql = "select * from film  WHERE producer LIKE '%" + searchString + "%'";
+        return jdbcTemplate.query(sql, new FilmRowMapper());
+    }
+
+    public void addFilm(Film film) {
+        String sql = "insert into film values(" + film.getId() + ",'" + film.getTitle() + "','" + film.getProducer() + "'," +  film.getPoints() + ")";
+        jdbcTemplate.update(sql);
     }
 
 

@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/TR/xhtml11/">
 
     <head>
         <title>Home</title>
@@ -11,26 +11,20 @@
 
     <body>
     <div class="row justify-content-center my-3">
-        <form class="form-inline md-form col-md-7 justify-content-center" th:action="@{/searchFilm}" th:object="${searchFilm}" method="GET">
+        <form class="form-inline md-form col-md-7 justify-content-center" th:action="@{/searchFilm}" th:field="${searchForm}" method="GET">
             <input class="form-control" style="width: 520px;" type="text" name="q" placeholder="Search" aria-label="Search" />
-            <div class="row mx-1">
-                <div class="form-group">
-                    <div class="col-md-12">
-                        <div class="input-group">
-                            <div id="radioBtn" class="btn-group" style="width: 167px;">
-                                <a class="btn btn-primary btn-sm active" data-toggle="parameter" data-title="1">By title</a>
-                                <a class="btn btn-primary btn-sm notActive" data-toggle="parameter" data-title="2">By producer</a>
-                            </div>
-                            <input type="hidden" name="parameter" id="parameter" />
-                        </div>
-                    </div>
-                </div>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-secondary active">
+                    <input type="radio" name="options" id="option1" autocomplete="off" checked th:value="1"> By title
+                </label>
+                <label class="btn btn-secondary">
+                    <input type="radio" name="options" id="option2" autocomplete="off" th:value="2"> By producer
+                </label>
             </div>
-
-            <input class="btn btn-primary" type="submit" value="Search" />
+            <input class="btn btn-success" type="submit" value="Search" />
         </form>
     </div>
-    <table class="col-md-7 mx-auto table table-striped">
+    <table class="col-md-7 mx-auto table table-warning">
         <thead>
         <tr>
             <th>ID</th>
@@ -40,7 +34,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each ="film : ${ALL_FILMS}">
+        <tr th:each ="film : ${filmPage.content}">
             <td th:utext="${film.id}">...</td>
             <td th:utext="${film.title}">...</td>
             <td th:utext="${film.producer}">...</td>
@@ -48,6 +42,53 @@
         </tr>
         </tbody>
     </table>
+
+    <div sec:authorize="hasRole('ADMIN')">
+        <form action="/addFilm" method="post">
+            id:
+            <input type="text" name="id" />
+            <br/>
+            title:
+            <input type="text" name="title" />
+            <br/>
+            producer:
+            <input type="text" name="producer" />
+            <br/>
+            points:
+            <input type="text" name="points" />
+            <br/>
+            <input type="submit" value="Создать" />
+        </form>
+    </div>
+
+    <div class="row justify-content-center">
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        <li class="page-item" th:classappend="${filmPage.number == 0} ? disabled">
+            <a class="page-link"  th:href="@{/home(size=${filmPage.size}, page=${filmPage.number})}">
+                ←
+            </a>
+        </li>
+
+        <li th:each="pageNumber : ${pageNumbers}" class="page-item" th:classappend="${pageNumber==filmPage.number + 1} ? active">
+            <a class="page-link" th:href="@{/home(size=${filmPage.size}, page=${pageNumber})}"
+               th:text="${pageNumber}">
+            </a>
+        </li>
+
+        <li class="page-item" th:classappend="${filmPage.number == filmPage.totalPages - 1} ? disabled">
+            <a class="page-link" th:href="@{/home(size=${filmPage.size}, page=${filmPage.number + 2})}">→</a>
+        </li>
+    </ul>
+</nav>
+    <select onchange="if (this.value) window.location.href = this.value" class="text-primary" id="select" style="height: 38px;">
+        <option value="/home?size=2" th:attrappend="selected=${filmPage.size == 2} ? selected">2</option>
+        <option value="/home?size=3" th:attrappend="selected=${filmPage.size == 3} ? selected">3</option>
+        <option value="/home?size=5" th:attrappend="selected=${filmPage.size == 5} ? selected">5</option>
+    </select>
+    </div>
+
+    <a href="/logout">CLICK</a>
+
     </body>
-    <script type="text/javascript" th:src="@{/js/script.js}"></script>
 </html>

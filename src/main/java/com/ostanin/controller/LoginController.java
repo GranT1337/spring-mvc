@@ -4,8 +4,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -26,20 +24,6 @@ public class LoginController {
     @GetMapping("/add")
     public String addBook(Model model) {
         return "/admin";
-    }
-
-    @RequestMapping(value = { "/addBook" }, method = RequestMethod.POST)
-    public String savePerson(Model model) {
-
-//        String name = bookForm.getName();
-//        String author = bookForm.getAuthor();
-//        int id = bookForm.getId();
-//        int isbn = bookForm.getIsbn();
-//
-//        Book newBook = new Book(id, author, name, isbn);
-//        bookRepository.addBook(newBook);
-
-        return "redirect:/home";
     }
 
     @GetMapping("/user")
