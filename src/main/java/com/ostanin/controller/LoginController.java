@@ -11,6 +11,7 @@ public class LoginController {
 
 
 
+
     @GetMapping(value = {"/", "/index"})
     public String index() {
         return "redirect:/home";
@@ -41,6 +42,11 @@ public class LoginController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/login");
         return modelAndView;
+    }
+
+    @GetMapping("/login/international")
+    public String getInternationalPage() {
+        return "redirect:/login";
     }
 
     @PostMapping
