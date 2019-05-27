@@ -9,9 +9,6 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class LoginController {
 
-
-
-
     @GetMapping(value = {"/", "/index"})
     public String index() {
         return "redirect:/home";

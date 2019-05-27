@@ -29,22 +29,10 @@ public class WebConfig implements WebMvcConfigurer {
         lci.setParamName("lang");
         return lci;
     }
-
-    @Bean
-    public CookieLocaleResolver getCookieLocaleResolver(){
-        CookieLocaleResolver localeResolver = new CookieLocaleResolver();
-        localeResolver.setCookieName("cookie-locale-info");
-        localeResolver.setDefaultLocale(new Locale("ru"));
-        localeResolver.setCookieMaxAge(3600);
-
-        return localeResolver;
-    }
-
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(localeChangeInterceptor());
     }
-
 
     @Bean
     public MessageSource messageSource() {
