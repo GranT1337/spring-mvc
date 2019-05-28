@@ -45,48 +45,72 @@
         </thead>
         <tbody>
         <tr th:each ="film : ${filmPage.content}">
-            <td th:utext="${film.id}">...</td>
-            <td th:utext="${film.title}">...</td>
-            <td th:utext="${film.producer}">...</td>
-            <td th:utext="${film.points}">...</td>
             <div sec:authorize="hasRole('ADMIN')">
+                <td class = "idFilm" th:text="${film.id}">...</td>
+                <td><input class = "titleFilm" th:value="${film.title}"/></td>
+                <td><input class = "producerFilm" th:value="${film.producer}"/></td>
+                <td><input class = "pointsFilm" th:value="${film.points}"/></td>
+                <td class="answer"></td>
                 <td>
-                    <button type="button" class="fa fa-pencil" data-toggle="modal" data-target="#exampleModal" th:value="film"/>
+                    <button type="button" class="fa fa-pencil" th:value="${film.id}"/>
+                    <button type="button" class="fa fa-trash-o fa-lg" th:value="${film.id}"/>
                 </td>
+            </div>
+            <div sec:authorize="hasRole('USER')">
+                <td th:utext="${film.id}">...</td>
+                <td th:utext="${film.title}">...</td>
+                <td th:utext="${film.producer}">...</td>
+                <td th:utext="${film.points}">...</td>
             </div>
         </tr>
         </tbody>
     </table>
 
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p id="pID">
+    <script>
 
-                    </p>
-                    <script>
-                        $(document).ready(function() {
-                            $("button").click(function() {
-                             var buttonP = $(this).val();
-                             $('#pID').text(buttonP);
-                         });
-                     });
-                    </script>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
-            </div>
-        </div>
-    </div>
+            $(document).ready(function () {
+                $(".fa-trash-o").click(function() {
+                        var $call = $(this);
+                        $.ajax({
+                            type: 'GET',
+                            url: '/deleteFilm',
+                            data: {
+                                'id': $call.val(),
+                            }
+                        }).done(
+                            function (answer) {
+                                if (answer == true) {
+                                    $call.closest('tr').remove();
+                                }
+                            }
+                        )
+                    })
+            }
+            )
+
+            $(document).ready(function () {
+                $(".fa-pencil").click(function() {
+                        var $call = $(this);
+                        $.ajax({
+                            type: 'GET',
+                            url: '/editFilm',
+                            data: {
+                                'title': $call.closest('tr').find('.titleFilm').val(),
+                                'producer': $call.closest('tr').find('.producerFilm').val(),
+                                'points': $call.closest('tr').find('.pointsFilm').val(),
+                                'id': $call.val(),
+                            }
+                        }).done(
+                            function (answer) {
+                                if (answer == true) {
+                                    $call.closest('tr').find('.answer').html("Успех");
+                                }
+                            }
+                        )
+                    })
+            }
+            )
+    </script>
 
     <div sec:authorize="hasRole('ADMIN')">
         <form action="/addFilm" method="post">

@@ -49,5 +49,17 @@ public class FilmJdbcRepository {
         jdbcTemplate.update(sql);
     }
 
+    public boolean refreshFilm(Film film) {
+        String sql = "update film SET title=?, producer=?, points=? where id = " + film.getId();
+        jdbcTemplate.update(sql, film.getTitle(), film.getProducer(), film.getPoints());
+        return true;
+    }
+
+
+    public boolean deleteFilm(long id) {
+        String sql = "delete from film where id = " + id;
+        jdbcTemplate.update(sql);
+        return true;
+    }
 
 }

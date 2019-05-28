@@ -50,7 +50,7 @@ public class HomeController {
         return "/home";
     }
 
-    @RequestMapping(value = { "/searchFilm" }, method = RequestMethod.GET)
+    @GetMapping("/searchFilm")
     public String searchFilm(Model model, @RequestParam(required=false, value="q") String searchForm, @RequestParam(required=false, value="options") String parameter) {
         model.addAttribute("filmList", searchService.searchFilm(searchForm, parameter));
 
@@ -62,6 +62,18 @@ public class HomeController {
         Film newFilm = new Film(id, title, producer, points);
         filmJdbcRepository.addFilm(newFilm);
         return "redirect:/home";
+    }
+
+    @GetMapping("/editFilm")
+    @ResponseBody
+    public boolean refreshFilm(Film film) {
+        return filmJdbcRepository.refreshFilm(film);
+    }
+
+    @GetMapping("/deleteFilm")
+    @ResponseBody
+    public boolean deleteFilm(long id) {
+        return filmJdbcRepository.deleteFilm(id);
     }
 
 
