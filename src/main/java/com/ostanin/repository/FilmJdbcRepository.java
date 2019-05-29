@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 @Repository
-public class FilmJdbcRepository {
+public class FilmJdbcRepository implements IFilmJdbcRepository{
 
     @Autowired
     JdbcTemplate jdbcTemplate;
@@ -54,7 +54,6 @@ public class FilmJdbcRepository {
         jdbcTemplate.update(sql, film.getTitle(), film.getProducer(), film.getPoints());
         return true;
     }
-
 
     public boolean deleteFilm(long id) {
         String sql = "delete from film where id = " + id;

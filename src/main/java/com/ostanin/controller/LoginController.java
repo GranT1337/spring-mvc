@@ -14,25 +14,6 @@ public class LoginController {
         return "redirect:/home";
     }
 
-    @GetMapping("/admin")
-    public String admin() {
-        return "/admin";
-    }
-
-    @GetMapping("/add")
-    public String addBook(Model model) {
-        return "/admin";
-    }
-
-    @GetMapping("/user")
-    public String user() {
-        return "/user";
-    }
-
-    @GetMapping("/about")
-    public String about() {
-        return "/about";
-    }
 
     @GetMapping("/login")
     public ModelAndView login() {
@@ -43,18 +24,7 @@ public class LoginController {
 
     @GetMapping("/login/international")
     public String getInternationalPage() {
-        return "redirect:/login";
+        return "/login";
     }
-
-    @PostMapping
-    public String loginPost() {
-        return "redirect:/home";
-    }
-
-    @GetMapping("/403")
-    public String error403() {
-        return "/error/403";
-    }
-
 
 }

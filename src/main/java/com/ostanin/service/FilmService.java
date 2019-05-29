@@ -2,6 +2,8 @@ package com.ostanin.service;
 
 import com.ostanin.dto.Film;
 import com.ostanin.repository.FilmJdbcRepository;
+import com.ostanin.repository.IFilmJdbcRepository;
+import com.ostanin.service.interfaces.IFilmService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -13,9 +15,10 @@ import java.util.Collections;
 import java.util.List;
 
 @Service
-public class FilmService {
+public class FilmService implements IFilmService {
+
     @Autowired
-    FilmJdbcRepository repository;
+    IFilmJdbcRepository repository;
 
     public List<Film> findAll() {
         return repository.findAll();

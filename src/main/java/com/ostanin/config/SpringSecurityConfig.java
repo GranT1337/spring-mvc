@@ -11,10 +11,6 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 @EnableWebSecurity
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private AccessDeniedHandler accessDeniedHandler;
-
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
@@ -32,12 +28,10 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/login")
                 .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID")
-                .permitAll()
-                .and()
-                .exceptionHandling().accessDeniedHandler(accessDeniedHandler);
+                .permitAll();
+
     }
 
-    // создаем пользоватлелей, admin и user
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 
