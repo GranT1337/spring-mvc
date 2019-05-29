@@ -10,7 +10,7 @@ import javax.validation.constraints.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Film {
-    //@Min(value = 0, message = "Правильно ID!")
+    @Min(value = 0, message = "Правильно ID!")
     //@NotNull(message = "Please enter id")
     private long id;
     @NotEmpty(message="Название фильма должно быть задано")

@@ -54,7 +54,9 @@ public class HomeController {
     }
 
     @GetMapping("/searchFilm")
-    public String searchFilm(Model model, @RequestParam(required=false, value="q") String searchForm, @RequestParam(required=false, value="options") String parameter) {
+    public String searchFilm(Model model,
+                             @RequestParam(required=false, value="q") String searchForm,
+                             @RequestParam(required=false, value="options") String parameter) {
         model.addAttribute("filmList", searchService.searchFilm(searchForm, parameter));
 
         return "/searchFilm";
@@ -76,6 +78,7 @@ public class HomeController {
                 modelAndView.setViewName("error");
             }
         }
+
         return modelAndView;
     }
 
